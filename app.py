@@ -23,15 +23,15 @@ def home():
     return render_template('home.html', posts=posts)
 
 
-@app.route("/about")
+@app.route("/Terminarz")
 def about():
-    return render_template('about.html', title='About')
+    return render_template('about.html', title='terminarz')
 
-@app.route("/szkolenie")
+@app.route("/Szkolenie")
 def szkolenie():
     return render_template('szkolenie.html', title='szkolenie')
 
-@app.route("/materialy")
+@app.route("/Materialy")
 def materialy():
     return render_template('materialy.html', title='materialy')
 

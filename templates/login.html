@@ -1,0 +1,35 @@
+{% extends "layout2.html" %} {% block title %}Logowanie{% endblock %} {% block content
+%}
+<form method="POST">
+
+  <div class="form-group">
+    <label for="email">Adres e-mail</label>
+    <input
+      type="text"
+      id="email"
+      name="email"
+      class="form-control"
+      placeholder="Wprowadź e-mail"
+    />
+    <label for="password">Hasło</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="form-control"
+      placeholder="Wprowadź hasło"
+    />
+    <br />
+    <div align="center">
+
+         <a class="button" type="submit" href="/home">Zaloguj się</a>
+
+
+
+
+    </div>
+
+
+  </div>
+</form>
+{% endblock %}

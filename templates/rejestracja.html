@@ -1,0 +1,54 @@
+
+
+{% extends "layout3.html" %} {% block title %}Rejestracja{% endblock %} {% block content
+%}
+<form method="POST">
+
+  <div class="form-group">
+      <label for="imie">Imię</label>
+    <input
+      type="imie"
+      id="imie"
+      name="imie"
+      class="form-control"
+      placeholder="Wprowadź imię"
+    />
+      <label for="nazwisko">Nazwisko</label>
+    <input
+      type="nazwisko"
+      id="nazwisko"
+      name="nazwisko"
+      class="form-control"
+      placeholder="Wprowadź nazwisko"
+    />
+    <label for="email">Adres e-mail</label>
+    <input
+      type="text"
+      id="email"
+      name="email"
+      class="form-control"
+      placeholder="Wprowadź e-mail"
+    />
+    <label for="password">Hasło</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="form-control"
+      placeholder="Wprowadź hasło"
+    />
+      <label for="password">Powtórz hasło</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="form-control"
+      placeholder="Powtórz hasło"
+    />
+    <br />
+    <div align="center">
+        <a class="button" type="submit" href="/home">Zarejestruj się</a>
+    </div>
+  </div>
+</form>
+{% endblock %}

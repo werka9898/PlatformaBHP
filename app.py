@@ -17,7 +17,7 @@ posts = [
 ]
 
 
-@app.route("/")
+
 @app.route("/home")
 def home():
     return render_template('home.html', posts=posts)
@@ -35,6 +35,20 @@ def szkolenie():
 def materialy():
     return render_template('materialy.html', title='materialy')
 
+@app.route("/")
+@app.route("/Logowanie")
+def logowanie():
+    return render_template('login.html', title='logowanie')
+
+
+@app.route("/Rejestracja")
+def rejestracja():
+    return render_template('rejestracja.html', title='rejestracja')
+
+
+@app.route("/Logout")
+def logout():
+    return render_template('wyloguj.html', title='wyloguj')
 
 if __name__ == '__main__':
     app.run(debug=True)

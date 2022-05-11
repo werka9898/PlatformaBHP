@@ -78,3 +78,20 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+
+
+.button {
+  background-color: #5f788a; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+
+

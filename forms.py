@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
+
 class FormularzRejestracji(FlaskForm):
     imie = StringField('Wprowadź imię',
                        validators=[DataRequired(), Length(min=1, max=20)])

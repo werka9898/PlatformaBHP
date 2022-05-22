@@ -55,12 +55,12 @@
         </div>
         <div class="col-md-4">
           <div class="content-section">
-            <h3>Avatar</h3>
+            <h3>Użytkownik</h3>
 
               <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Imie</li>
-                <li class="list-group-item list-group-item-light">Nazwisko</li>
-                <li class="list-group-item list-group-item-light">Stanowisko</li>
+                <li class="list-group-item">{{ current_user.imie + " " + current_user.nazwisko}}</li>
+<!--                <li class="list-group-item list-group-item-light">{{ current_user.nazwisko }}</li>-->
+<!--                <li class="list-group-item list-group-item-light">Stanowisko</li>-->
 
               </ul>
 

@@ -5,12 +5,8 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 
-
-
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
-
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///baza_pracownikow.db' #nazwa pliku, który będzie zawierał bazę danych
 
@@ -45,13 +41,9 @@ class Uzytkownicy(db.Model, UserMixin):
         db.session.add(self)
         db.session.commit()
 
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return Uzytkownicy.query.get(int(user_id))
-
-
 
 posts = [
     {
@@ -67,8 +59,6 @@ posts = [
         'date': '04.05.2022'
     }
 ]
-
-
 
 @app.route("/home")
 def home():
@@ -104,8 +94,6 @@ def logowanie():
     return render_template('login.html', title='logowanie', form=form)
 
 
-
-
 @app.route("/Rejestracja", methods=['GET','POST'])
 def rejestracja():
 
@@ -122,7 +110,6 @@ def rejestracja():
         flash(f'Rejestracja pomyślna!', 'success')
         return redirect(url_for('logowanie'))
     return render_template('rejestracja.html', title='rejestracja', form=form)
-
 
 
 @app.route("/Logout")

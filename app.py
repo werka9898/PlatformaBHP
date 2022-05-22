@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///uzytkownicy.db' #nazwa pliku, który będzie zawierał bazę danych
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///baza_pracownikow.db' #nazwa pliku, który będzie zawierał bazę danych
 
 db = SQLAlchemy(app) #obiekt aplikacji, za pomocą którego prowadzimy interakcje z bazą danych
 bcrypt = Bcrypt(app)
@@ -22,7 +22,7 @@ login_manager.login_message_category= 'info'
 
 
 # model - klasa reprezentująca tabele w bazie danych, db.Model specjalna klasa od SQLAlchemy
-class Uzytkownik(db.Model, UserMixin):
+class Uzytkownicy(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True) # klucz główny tabeli
     imie = db.Column(db.String(20))
     nazwisko = db.Column(db.String(20))
@@ -38,7 +38,7 @@ class Uzytkownik(db.Model, UserMixin):
         self.powtorz_haslo = powtorz_haslo
 
     def __repr__(self):
-        return f"Uzytkownik('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}')"
+        return f"Uzytkownicy('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}')"
 
 
 db.create_all()
@@ -46,7 +46,7 @@ db.session.commit()
 
 @login_manager.user_loader
 def load_user(user_id):
-    return Uzytkownik.query.get(int(user_id))
+    return Uzytkownicy.query.get(int(user_id))
 
 
 
@@ -92,7 +92,7 @@ def logowanie():
 
     form = FormularzLogowania()
     if form.validate_on_submit():
-        user = Uzytkownik.query.filter_by(email=form.email.data).first()
+        user = Uzytkownicy.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.haslo, form.password.data):
             login_user(user)
             next_page = request.args.get('next')
@@ -114,7 +114,7 @@ def rejestracja():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         hashed_password2 = bcrypt.generate_password_hash(form.repeat_password.data).decode('utf-8')
-        nowy_uzytkownik = Uzytkownik(imie=form.imie.data, nazwisko=form.nazwisko.data, email=form.email.data, haslo=hashed_password, powtorz_haslo=hashed_password2)
+        nowy_uzytkownik = Uzytkownicy(imie=form.imie.data, nazwisko=form.nazwisko.data, email=form.email.data, haslo=hashed_password, powtorz_haslo=hashed_password2)
         db.session.add(nowy_uzytkownik)
         db.session.commit()
         flash(f'Rejestracja pomyślna!', 'success')

@@ -24,10 +24,10 @@ login_manager.login_message_category= 'info'
 # model - klasa reprezentująca tabele w bazie danych, db.Model specjalna klasa od SQLAlchemy
 class Uzytkownik(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True) # klucz główny tabeli
-    imie = db.Column(db.String(20), unique=True)
-    nazwisko = db.Column(db.String(20), unique=True)
+    imie = db.Column(db.String(20))
+    nazwisko = db.Column(db.String(20))
     email = db.Column(db.String(120), unique=True)
-    haslo = db.Column(db.String(60), unique=True)
+    haslo = db.Column(db.String(60))
     powtorz_haslo = db.Column(db.String(60))
 
     def __init__(self, imie, nazwisko, email, haslo, powtorz_haslo):

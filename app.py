@@ -39,10 +39,13 @@ class Uzytkownicy(db.Model, UserMixin):
 
     def __repr__(self):
         return f"Uzytkownicy('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}')"
+    
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
 
-db.create_all()
-db.session.commit()
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -84,8 +87,7 @@ def szkolenie():
 def materialy():
     return render_template('materialy.html', title='materialy')
 
-@app.route("/")
-@app.route("/Logowanie", methods=['GET','POST'])
+@app.route("/", methods=['GET','POST'])
 def logowanie():
     if current_user.is_authenticated:
         return redirect(url_for('home'))

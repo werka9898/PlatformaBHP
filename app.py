@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///baza_pracownikow.db' #nazwa pliku, który będzie zawierał bazę danych
-
+app.config['SQLALCHEMY_BINDS'] = {'db2': 'sqlite:///materialy.db'}
 db = SQLAlchemy(app) #obiekt aplikacji, za pomocą którego prowadzimy interakcje z bazą danych
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -37,11 +37,37 @@ class Uzytkownicy(db.Model, UserMixin):
 
     def __repr__(self):
         return f"Uzytkownicy('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}')"
-    
-    
+
     def save(self):
         db.session.add(self)
         db.session.commit()
+
+
+class Posts(db.Model):
+    __bind_key__ = 'db2'
+    __tablename__ = 'Posts'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    author = db.Column(db.String(255))
+    slug = db.Column(db.String(255))
+    content = db.Column(db.String(255))
+
+
+    def __init__(self, title, content, author, slug):
+            self.title = title
+            self.author = author
+            self.slug = slug
+            self.content = content
+
+    def __repr__(self):
+            return f"Posts('{self.title}', '{self.author}', '{self.slug}','{self.content}')"
+
+    db.create_all()
+
+    def save(self):
+            db2.session.add(self)
+            db2.session.commit()
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -120,37 +146,10 @@ def logout():
     return render_template('wyloguj.html', title='wyloguj')
 
 
-#Dodaj Post
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dodawane_posty.db' #nazwa pliku, który będzie zawierał bazę danych
-#db = SQLAlchemy(app)
 
 
-class Posts(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(255))
-    author = db.Column(db.String(255))
-    slug = db.Column(db.String(255))
-    content = db.Column(db.Text)
-    #data_post =  db.Column(db.DateTime, default = datetime.utcnow)
 
 
-    def __init__(self, title, content, author, slug):
-        self.title = title
-        self.author = author
-        self.slug = slug
-        self.content = content
-
-        #self.data_post = data_post
-
-
-    def __repr__(self):
-        return f"Posts('{self.title}', '{self.author}', '{self.slug}','{self.content}')"
-
-    db.create_all()
-
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
 
 
 

@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+
     <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
       <div class="card card-plain">
         <div class="card-header" role="tab" id="headingOne">
@@ -37,11 +38,12 @@
           </div>
         </div>
       </div>
+
+
       <div class="card card-plain">
         <div class="card-header" role="tab" id="headingTwo">
             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                 Zdjecie
-
                 <i class="tim-icons icon-minimal-down"></i>
             </a>
         </div>
@@ -53,11 +55,12 @@
           </div>
         </div>
       </div>
+
+
       <div class="card card-plain">
         <div class="card-header" role="tab" id="headingThree">
             <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                 Collapsible Group Item
-
                 <i class="tim-icons icon-minimal-down"></i>
             </a>
         </div>
@@ -67,6 +70,11 @@
           </div>
         </div>
       </div>
+
+
+
+
+
     </div>
 
 {% endblock content %}

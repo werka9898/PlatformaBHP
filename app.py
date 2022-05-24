@@ -1,9 +1,11 @@
+from datetime import datetime
+
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from forms import FormularzRejestracji, FormularzLogowania
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-
+from addpost import FormularzDodawaniaPosta
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -116,6 +118,68 @@ def rejestracja():
 def logout():
     logout_user()
     return render_template('wyloguj.html', title='wyloguj')
+
+
+#Dodaj Post
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dodawane_posty.db' #nazwa pliku, który będzie zawierał bazę danych
+#db = SQLAlchemy(app)
+
+
+class Posts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    author = db.Column(db.String(255))
+    slug = db.Column(db.String(255))
+    content = db.Column(db.Text)
+    #data_post =  db.Column(db.DateTime, default = datetime.utcnow)
+
+
+    def __init__(self, title, content, author, slug):
+        self.title = title
+        self.author = author
+        self.slug = slug
+        self.content = content
+
+        #self.data_post = data_post
+
+
+    def __repr__(self):
+        return f"Posts('{self.title}', '{self.author}', '{self.slug}','{self.content}')"
+
+    db.create_all()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+
+
+
+@app.route("/Dodaj_post", methods=['GET','POST'])
+def dodajpost():
+        form = FormularzDodawaniaPosta()
+        if form.validate_on_submit():
+            #przekazujemy tytuł, treść itp do zmiennej post
+            post = Posts(title=form.title.data, content=form.content.data, author=form.author.data, slug = form.slug.data)
+            #
+            # #Czyścimy okienka
+            # form.title.data = ''
+            # form.author.data = ''
+            # form.slug.data = ''
+            # form.content.data = ''
+
+
+            # dodaj post do bazy danych
+            db.session.add(post)
+            db.session.commit()
+
+            flash("Post został dodany")
+
+        # przejdź do tej samej strony
+        return render_template('dodaj_post.html', form= form)
+#     return render_template("dodaj_post.html", form1= form1)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

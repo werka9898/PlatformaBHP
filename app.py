@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from forms import FormularzRejestracji, FormularzLogowania
@@ -21,6 +19,7 @@ login_manager.login_message_category= 'info'
 
 # model - klasa reprezentująca tabele w bazie danych, db.Model specjalna klasa od SQLAlchemy
 class Uzytkownicy(db.Model, UserMixin):
+    __tablename__ = 'Użytkownicy'
     id = db.Column(db.Integer, primary_key=True) # klucz główny tabeli
     imie = db.Column(db.String(20))
     nazwisko = db.Column(db.String(20))
@@ -37,6 +36,8 @@ class Uzytkownicy(db.Model, UserMixin):
 
     def __repr__(self):
         return f"Uzytkownicy('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}')"
+
+    db.create_all()
 
     def save(self):
         db.session.add(self)
@@ -62,11 +63,12 @@ class Posts(db.Model):
     def __repr__(self):
             return f"Posts('{self.title}', '{self.author}', '{self.slug}','{self.content}')"
 
-    db.create_all()
+    db.create_all(bind='db2')
 
     def save(self):
-            db2.session.add(self)
-            db2.session.commit()
+            db.session.add(self)
+            db.session.commit()
+
 
 
 @login_manager.user_loader
@@ -150,29 +152,25 @@ def logout():
 
 
 
-
-
-
-
 @app.route("/Dodaj_post", methods=['GET','POST'])
 def dodajpost():
         form = FormularzDodawaniaPosta()
         if form.validate_on_submit():
             #przekazujemy tytuł, treść itp do zmiennej post
             post = Posts(title=form.title.data, content=form.content.data, author=form.author.data, slug = form.slug.data)
-            #
-            # #Czyścimy okienka
-            # form.title.data = ''
-            # form.author.data = ''
-            # form.slug.data = ''
-            # form.content.data = ''
+
+            #Czyścimy okienka
+            form.title.data = ''
+            form.author.data = ''
+            form.slug.data = ''
+            form.content.data = ''
 
 
-            # dodaj post do bazy danych
+            #dodaj post do bazy danych
             db.session.add(post)
             db.session.commit()
+            flash(f'Post został dodany!', 'success')
 
-            flash("Post został dodany")
 
         # przejdź do tej samej strony
         return render_template('dodaj_post.html', form= form)

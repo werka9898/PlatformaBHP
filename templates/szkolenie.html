@@ -1,4 +1,85 @@
+{#{% extends "layout.html" %}#}
+{#{% block content %}#}
+{#    <h1>Szkolenia</h1>#}
+{#{% endblock content %}#}
+
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Szkolenia</h1>
+
+    <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+      <div class="card card-plain">
+        <div class="card-header" role="tab" id="headingOne">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Podstawowe zasady prawa pracy
+                <i class="tim-icons icon-minimal-down"></i>
+            </a>
+        </div>
+
+        <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+          <div class="card-body" >
+              Każdy ma prawo do swobodnie wybranej pracy. Nikomu, z wyjątkiem przypadków określonych w
+        ustawie, nie można zabronić wykonywania zawodu. Państwo określa minimalną wysokość
+        wynagrodzenia za pracę. Pracownik ma prawo do godziwego wynagrodzenia za pracę. (Na podstawie art. 10,13 KP)
+            Nawiązanie stosunku pracy, bez względu na jego podstawę prawną, wymaga zgodnego
+        oświadczenia woli pracodawcy i pracownika. (Na podstawie art. 11 KP)
+        Pracodawca jest obowiązany szanować godność i inne dobra osobiste pracownika. Pracownicy
+        mają równe prawa z tytułu jednakowego wypełniania takich samych obowiązków; dotyczy to w
+        szczególności równego traktowania mężczyzn i kobiet w dziedzinie pracy. Jakakolwiek dyskryminacja
+        w stosunkach pracy, w szczególności ze względu na płeć (dyskryminowanie wskutek zachowań
+        werbalnych, fizycznych lub pozawerbalnych – molestowanie seksualne), wiek, niepełnosprawność,
+        rasę, narodowość, przekonania, zwłaszcza polityczne lub religijne, oraz przynależność związkową - jest niedopuszczalna. (Na podstawie art. 111-3,183a KP)
+        Pracodawca jest obowiązany zapewnić pracownikom bezpieczne i higieniczne warunki pracy. (Na podstawie art. 15 KP)
+        Pracodawca, stosownie do możliwości i warunków, zaspokaja bytowe, socjalne i kulturalne potrzeby pracowników. (Na podstawie art. 16 KP)
+
+    {#          <img src="images/image1.png" class="img-responsive" alt="desert"/>#}
+    {#          <img src="images/image1.jpg" class="img-fluid" alt="Responsive image">#}
+    {#          <ol>#}
+    {#              <br/><a#}
+    {#                  class="largeimage img-view" href="images/image1.png" target="_blank"><img#}
+    {#                  style="width: 248px; height: 71px;" src="images/image1.png" alt="" width="225"#}
+    {#                  height="56"#}
+    {#                  border="0"/></a>#}
+    {#          </ol>#}
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card card-plain">
+        <div class="card-header" role="tab" id="headingTwo">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+               Zdjęcie
+                <i class="tim-icons icon-minimal-down"></i>
+            </a>
+        </div>
+        <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            <div class="text-center">
+              <img src="images/images1.jpg" class="rounded" >
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="card card-plain">
+        <div class="card-header" role="tab" id="headingThree">
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                Collapsible Group Item
+                <i class="tim-icons icon-minimal-down"></i>
+            </a>
+        </div>
+        <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+    </div>
+
 {% endblock content %}

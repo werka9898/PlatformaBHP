@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
+
+
 <div class="content-section">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
@@ -52,6 +54,7 @@
 
 
             <div class="form-group">
+
                 {{ form.content.label(class="form-control-label") }}
                 {% if form.content.errors %}
                     {{ form.content(class="form-control form-control-lg is-invalid", rows="10") }}
@@ -70,6 +73,10 @@
         <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
+    {{ ckeditor.load() }}
+    {{ ckeditor.config(name='content') }}
+
+
     </form>
 </div>
 {% endblock content %}

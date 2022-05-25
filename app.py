@@ -4,8 +4,11 @@ from forms import FormularzRejestracji, FormularzLogowania
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from addpost import FormularzDodawaniaPosta
+from flask_ckeditor import CKEditor
+
 
 app = Flask(__name__)
+ckeditor = CKEditor(app)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///baza_pracownikow.db' #nazwa pliku, który będzie zawierał bazę danych
@@ -103,10 +106,6 @@ def about():
 def szkolenie():
     return render_template('szkolenie.html', title='szkolenie')
 
-@app.route("/Materialy")
-def materialy():
-    return render_template('materialy.html', title='materialy')
-
 @app.route("/", methods=['GET','POST'])
 def logowanie():
     if current_user.is_authenticated:
@@ -132,8 +131,8 @@ def rejestracja():
 
     form = FormularzRejestracji()
     if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        hashed_password2 = bcrypt.generate_password_hash(form.repeat_password.data).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(form.password.data)
+        hashed_password2 = bcrypt.generate_password_hash(form.repeat_password.data)
         nowy_uzytkownik = Uzytkownicy(imie=form.imie.data, nazwisko=form.nazwisko.data, email=form.email.data, haslo=hashed_password, powtorz_haslo=hashed_password2)
         db.session.add(nowy_uzytkownik)
         db.session.commit()
@@ -176,6 +175,13 @@ def dodajpost():
         return render_template('dodaj_post.html', form= form)
 #     return render_template("dodaj_post.html", form1= form1)
 
+
+@app.route("/Materialy", methods=['GET','POST'] )
+def materialy():
+    #wez posty z bazy danych
+    #posts = Posts.query.order_by(Posts.title)
+    posts = Posts.query.all()
+    return render_template('materialy.html', posts = posts)
 
 
 if __name__ == '__main__':

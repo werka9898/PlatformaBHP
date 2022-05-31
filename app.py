@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from addpost import FormularzDodawaniaPosta
 from flask_ckeditor import CKEditor
-
+from quiz import PopQuiz
 
 app = Flask(__name__)
 ckeditor = CKEditor(app)
@@ -30,12 +30,14 @@ class Uzytkownicy(db.Model, UserMixin):
     haslo = db.Column(db.String(60))
     powtorz_haslo = db.Column(db.String(60))
 
+
     def __init__(self, imie, nazwisko, email, haslo, powtorz_haslo):
         self.imie = imie
         self.nazwisko = nazwisko
         self.email = email
         self.haslo = haslo
         self.powtorz_haslo = powtorz_haslo
+
 
     def __repr__(self):
         return f"Uzytkownicy('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}')"
@@ -97,7 +99,6 @@ posts = [
 def home():
     return render_template('home.html', posts=posts)
 
-
 @app.route("/Terminarz")
 def about():
     return render_template('about.html', title='terminarz')
@@ -133,7 +134,7 @@ def rejestracja():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         hashed_password2 = bcrypt.generate_password_hash(form.repeat_password.data)
-        nowy_uzytkownik = Uzytkownicy(imie=form.imie.data, nazwisko=form.nazwisko.data, email=form.email.data, haslo=hashed_password, powtorz_haslo=hashed_password2)
+        nowy_uzytkownik = Uzytkownicy(imie=form.imie.data, nazwisko=form.nazwisko.data, email=form.email.data, haslo=hashed_password, powtorz_haslo=hashed_password2, wynik = 0)
         db.session.add(nowy_uzytkownik)
         db.session.commit()
         flash(f'Rejestracja pomyślna!', 'success')
@@ -145,10 +146,6 @@ def rejestracja():
 def logout():
     logout_user()
     return render_template('wyloguj.html', title='wyloguj')
-
-
-
-
 
 
 @app.route("/Dodaj_post", methods=['GET','POST'])
@@ -164,12 +161,10 @@ def dodajpost():
             form.slug.data = ''
             form.content.data = ''
 
-
             #dodaj post do bazy danych
             db.session.add(post)
             db.session.commit()
             flash(f'Post został dodany!', 'success')
-
 
         # przejdź do tej samej strony
         return render_template('dodaj_post.html', form= form)
@@ -183,6 +178,17 @@ def materialy():
     posts = Posts.query.all()
     return render_template('materialy.html', posts = posts)
 
+
+@app.route("/Quiz", methods=['GET', 'POST'])
+def quiz():
+  form = PopQuiz()
+  if form.validate_on_submit():
+      return redirect(url_for('wyniki'))
+  return render_template('quiz.html', form=form)
+
+@app.route('/Wyniki')
+def wyniki():
+ return render_template('wyniki.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

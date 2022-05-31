@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+<div class="container">
+    <form action='/Quiz' method="POST" role="form">
+        {% for question in form %}
+              <div class="question">
+                <h2>{{ question.label }}</h2>
+              </div><br>
+              <div class = "answer">
+                {{ question }}
+              </div>
+        {% endfor %}
+        <input type="submit" value = "Submit" />
+    </form>
+</div>
+
+
+
+
+{% endblock %}

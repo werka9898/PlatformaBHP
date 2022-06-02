@@ -11,7 +11,7 @@ app = Flask(__name__)
 ckeditor = CKEditor(app)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///baza_pracownikow.db' #nazwa pliku, który będzie zawierał bazę danych
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pracownicy.db' #nazwa pliku, który będzie zawierał bazę danych
 app.config['SQLALCHEMY_BINDS'] = {'db2': 'sqlite:///materialy.db'}
 db = SQLAlchemy(app) #obiekt aplikacji, za pomocą którego prowadzimy interakcje z bazą danych
 bcrypt = Bcrypt(app)
@@ -22,27 +22,28 @@ login_manager.login_message_category= 'info'
 
 # model - klasa reprezentująca tabele w bazie danych, db.Model specjalna klasa od SQLAlchemy
 class Uzytkownicy(db.Model, UserMixin):
-    __tablename__ = 'Użytkownicy'
+    __tablename__ = 'Uzytkownicy'
     id = db.Column(db.Integer, primary_key=True) # klucz główny tabeli
     imie = db.Column(db.String(20))
     nazwisko = db.Column(db.String(20))
     email = db.Column(db.String(120), unique=True)
     haslo = db.Column(db.String(60))
     powtorz_haslo = db.Column(db.String(60))
+    wynik = db.Column(db.Integer)
 
 
-    def __init__(self, imie, nazwisko, email, haslo, powtorz_haslo):
+    def __init__(self, imie, nazwisko, email, haslo, powtorz_haslo, wynik):
         self.imie = imie
         self.nazwisko = nazwisko
         self.email = email
         self.haslo = haslo
         self.powtorz_haslo = powtorz_haslo
-
+        self.wynik = wynik
 
     def __repr__(self):
-        return f"Uzytkownicy('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}')"
+        return f"Uzytkownicy('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}', '{self.wynik}')"
 
-    db.create_all()
+    # db.create_all()
 
     def save(self):
         db.session.add(self)
@@ -58,7 +59,6 @@ class Posts(db.Model):
     slug = db.Column(db.String(255))
     content = db.Column(db.String(255))
 
-
     def __init__(self, title, content, author, slug):
             self.title = title
             self.author = author
@@ -73,8 +73,6 @@ class Posts(db.Model):
     def save(self):
             db.session.add(self)
             db.session.commit()
-
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -182,7 +180,7 @@ def materialy():
 @app.route("/Quiz", methods=['GET', 'POST'])
 def quiz():
   form = PopQuiz()
-  if form.validate_on_submit():
+  if form.on_submit():
       return redirect(url_for('wyniki'))
   return render_template('quiz.html', form=form)
 
@@ -191,4 +189,6 @@ def wyniki():
  return render_template('wyniki.html')
 
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True)
+

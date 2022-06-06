@@ -1,15 +1,71 @@
+
 {% extends "layout.html" %}
 {% block content %}
-    {% for post in posts %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ post.temat }}</a>
-              <small class="text-muted">{{ post.date}}</small>
-            </div>
-            <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-          </div>
-        </article>
-    {% endfor %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/dodaj_wydarzenie">Dodaj wydarzenie</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<div class="container my-3">
+  <div id="calendar"></div>
+</div>
+    <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      aspectRatio: 2.25,
+      events: [
+        {% for event in events %}
+      {
+        title: '{{event.title}}',
+        start: '{{event.start}}',
+        end: '{{event.end}}',
+        url: '{{event.url}}',
+      },
+      {% endfor %}
+      ],
+    eventClick: function (info) {
+      info.jsEvent.preventDefault(); // don't let the browser navigate
+
+      if (info.event.url) {
+        window.open(info.event.url);
+      }
+    }
+    });
+  calendar.render();
+  });
+</script>
+
+{#    <script>#}
+{#        document.addEventListener('DOMContentLoaded', function() {#}
+{#          var calendarEl = document.getElementById('calendar');#}
+{#          var calendar = new FullCalendar.Calendar(calendarEl, {#}
+{#            initialView: 'dayGridMonth'#}
+{#          });#}
+{#          calendar.render();#}
+{#        });#}
+{#      </script>#}
+    <title>Kalendarz</title>
+
+{#    <div class="container">#}
+{#        <div id="calendar"></div>#}
+{#    </div>#}
+
 {% endblock content %}

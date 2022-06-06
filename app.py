@@ -6,11 +6,19 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from addpost import FormularzDodawaniaPosta
 from flask_ckeditor import CKEditor
 from quiz import PopQuiz
+import os
+from werkzeug.utils import secure_filename, send_from_directory
+
+UPLOAD_FOLDER = '/static/uploads'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
 ckeditor = CKEditor(app)
-app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
+app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
+app.config['UPLOAD_FOLDER'] = ['upload_location']
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pracownicy.db' #nazwa pliku, który będzie zawierał bazę danych
 app.config['SQLALCHEMY_BINDS'] = {'db2': 'sqlite:///materialy.db'}
 db = SQLAlchemy(app) #obiekt aplikacji, za pomocą którego prowadzimy interakcje z bazą danych
@@ -87,14 +95,44 @@ posts = [
         'date': '04.05.2022'
     }
 ]
+events = [
+    {
+        'title' : 'TestEvent',
+        'start' : '2021-08-24',
+        'end' : '',
+        'url' : 'https://youtube.com'
+    },
+    {
+        'title' : 'Another TestEvent',
+        'start' : '2021-08-25',
+        'end' : '2021-08-26',
+        'url' : 'https://google.com'
+    },
+]
 
 @app.route("/home")
 def home():
-    return render_template('home.html', posts=posts)
+    return render_template('home.html', events=events)
 
-@app.route("/Terminarz")
+@app.route("/dodaj_wydarzenie")
 def about():
-    return render_template('about.html', title='terminarz')
+    if request.method == "POST":
+        title = request.form['title']
+        start = request.form['start']
+        end = request.form['end']
+
+        if end == '':
+            end = start
+        events.append({
+            'title': title,
+            'start': start,
+            'end': end
+
+        },
+        )
+    return render_template("dodaj_wydarzenie.html")
+
+    # return render_template('dodaj_wydarzenie.html', title='terminarz')
 
 @app.route("/Szkolenie")
 def szkolenie():
@@ -140,6 +178,9 @@ def logout():
     logout_user()
     return render_template('wyloguj.html', title='wyloguj')
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route("/Dodaj_post", methods=['GET','POST'])
 def dodajpost():
@@ -160,6 +201,37 @@ def dodajpost():
         # przejdź do tej samej strony
         return render_template('dodaj_post.html', form= form)
 #     return render_template("dodaj_post.html", form1= form1)
+
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            print ('no file')
+            return redirect(request.url)
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            print ('no filename')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+    return '''
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form action="" method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+    '''
+
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],
+                               filename)
 
 
 @app.route("/Materialy", methods=['GET','POST'] )

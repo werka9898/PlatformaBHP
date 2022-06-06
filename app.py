@@ -49,31 +49,25 @@ class Uzytkownicy(db.Model, UserMixin):
 
 
 db.create_all()
-db.session.commit()
+
 
 class Posts(db.Model):
     __bind_key__ = 'db2'
     __tablename__ = 'Posts'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
-    author = db.Column(db.String(255))
-    slug = db.Column(db.String(255))
     content = db.Column(db.String(255))
 
-    def __init__(self, title, content, author, slug):
+    def __init__(self, title, content):
             self.title = title
-            self.author = author
-            self.slug = slug
             self.content = content
 
     def __repr__(self):
-            return f"Posts('{self.title}', '{self.author}', '{self.slug}','{self.content}')"
+            return f"Posts('{self.title}','{self.content}')"
 
-    db.create_all(bind='db2')
+db.create_all(bind='db2')
 
-    def save(self):
-            db.session.add(self)
-            db.session.commit()
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -152,12 +146,10 @@ def dodajpost():
         form = FormularzDodawaniaPosta()
         if form.validate_on_submit():
             #przekazujemy tytuł, treść itp do zmiennej post
-            post = Posts(title=form.title.data, content=form.content.data, author=form.author.data, slug = form.slug.data)
+            post = Posts(title=form.title.data, content=form.content.data)
 
             #Czyścimy okienka
             form.title.data = ''
-            form.author.data = ''
-            form.slug.data = ''
             form.content.data = ''
 
             #dodaj post do bazy danych

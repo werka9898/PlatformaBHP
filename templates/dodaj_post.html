@@ -24,49 +24,22 @@
 
 
             <div class="form-group">
-                {{ form.author.label(class="form-control-label") }}
-                {% if form.author.errors %}
-                    {{ form.author(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.author.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.author(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-
-
-            <div class="form-group">
-                {{ form.slug.label(class="form-control-label") }}
-                {% if form.slug.errors %}
-                    {{ form.slug(class="form-control form-control-lg is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.slug.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.slug(class="form-control form-control-lg") }}
-                {% endif %}
-            </div>
-
-
-            <div class="form-group">
 
                 {{ form.content.label(class="form-control-label") }}
                 {% if form.content.errors %}
-                    {{ form.content(class="form-control form-control-lg is-invalid", rows="10") }}
+                    {{ form.content(class="form-control form-control-lg is-invalid", rows="2") }}
                     <div class="invalid-feedback">
                         {% for error in form.content.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.content(class="form-control form-control-lg", rows="10") }}
+                    {{ form.content(class="form-control form-control-lg", rows="2") }}
                 {% endif %}
             </div>
+            <div>
+                <input type = "file"  name = "file" />
+            <div>
 
 
         </fieldset>
@@ -74,7 +47,7 @@
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
     {{ ckeditor.load() }}
-    {{ ckeditor.config(name='content') }}
+{#    {{ ckeditor.config(name='content') }}#}
 
 
     </form>

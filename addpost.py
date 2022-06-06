@@ -7,8 +7,8 @@ from flask_ckeditor import CKEditorField
 
 class FormularzDodawaniaPosta(FlaskForm):
     title = StringField("Tytuł", validators=[DataRequired()])
-    author = StringField("Autor", validators=[DataRequired()])
-    slug = StringField("Słowa kluczowe", validators=[DataRequired()])
+    # author = StringField("Autor", validators=[DataRequired()])
+    # slug = StringField("Słowa kluczowe", validators=[DataRequired()])
     #content = StringField("Treść", validators=[DataRequired()], widget= TextArea())
     content = CKEditorField("Treść", validators=[DataRequired()], widget= TextArea())
     #content = TextAreaField('Content', validators=[DataRequired()])

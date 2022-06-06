@@ -1,43 +1,3 @@
-{#{% extends 'layout.html' %}#}
-{#{% block content %}#}
-{#    <h1 class="title">{% block title %} Posts {% endblock %}</h1>#}
-{#    <div class="content">#}
-{#        {% for student in posts %}#}
-{#            <div class="student">#}
-{#                <p><b>#{{ student.id }}</b></p>#}
-{#                <b>#}
-{#                    <p class="name">{{ student.title }} {{ student.author }}</p>#}
-{#                </b>#}
-{#                <p>{{ student.slug }}</p>#}
-{#                <p>{{ student.content }} </p>#}
-{#            </div>#}
-{#        {% endfor %}#}
-{#    </div>#}
-{#{% endblock %}#}
-
-
-
-
-
-{#{% extends 'layout.html' %}#}
-{#{% block content %}#}
-{##}
-{#    {% for message in get_flashed_messages() %}#}
-{#        <div class="alert alert-warning alert-dismissible fade show" role="alert">#}
-{#          {{ message }}#}
-{#          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>#}
-{#        </div>#}
-{#        {% endfor %}#}
-{#            <br/>#}
-{#            {% for p in posts %}#}
-{#                {{p.title  }}<br/>#}
-{#                {{p.author  }}<br/>#}
-{#                {{p.slug  }}<br/>#}
-{#                {{p.content  }}<br/>#}
-{#            <br/>#}
-{#        {% endfor %}#}
-{#{% endblock %}#}
-
 
 {% extends "layout.html" %}
 {% block content %}
@@ -46,11 +6,12 @@
 {#         <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">#}
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ post.author.username }}</a>
+{#              <a class="mr-2" href="#">{{ post.author.username }}</a>#}
 {#            <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>#}
             </div>
             <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
             <p class="article-slug">{{ post.slug }}</p>
+
             <p class="article-content">{{ post.content }}</p>
           </div>
         </article>

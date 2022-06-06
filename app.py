@@ -43,12 +43,13 @@ class Uzytkownicy(db.Model, UserMixin):
     def __repr__(self):
         return f"Uzytkownicy('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}', '{self.wynik}')"
 
-    # db.create_all()
 
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
 
+
+
+
+db.create_all()
+db.session.commit()
 
 class Posts(db.Model):
     __bind_key__ = 'db2'
@@ -189,6 +190,6 @@ def wyniki():
  return render_template('wyniki.html')
 
 if __name__ == '__main__':
-    db.create_all()
+
     app.run(debug=True)
 

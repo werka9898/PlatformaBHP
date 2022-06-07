@@ -1,9 +1,11 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-
  <div class=”container”>
  <h1>Twoje wyniki</h1>
+   <ul class="list-group">
+      <h1>{{ current_user.wynik }}</h1>
+   </ul>
  </div>
 
  {% endblock %}

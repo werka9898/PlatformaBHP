@@ -12,7 +12,9 @@ class CorrectAnswer(object):
         message = 'Incorrect answer.'
 
         if field.data != self.answer:
-            raise ValidationError(message)
+            return 0
+        else :
+            return 1
 
 class PopQuiz(Form):
     class Meta:

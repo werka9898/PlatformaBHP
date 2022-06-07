@@ -97,15 +97,15 @@ posts = [
 ]
 events = [
     {
-        'title' : 'TestEvent',
-        'start' : '2021-08-24',
+        'title' : 'Szkolenie',
+        'start' : '2022-06-16',
         'end' : '',
         'url' : 'https://youtube.com'
     },
     {
-        'title' : 'Another TestEvent',
-        'start' : '2021-08-25',
-        'end' : '2021-08-26',
+        'title' : 'Test',
+        'start' : '2022-06-20',
+        'end' : '2022-06-20',
         'url' : 'https://google.com'
     },
 ]
@@ -114,22 +114,25 @@ events = [
 def home():
     return render_template('home.html', events=events)
 
-@app.route("/dodaj_wydarzenie")
+@app.route("/dodaj_wydarzenie", methods=['GET', "POST"])
 def about():
     if request.method == "POST":
         title = request.form['title']
         start = request.form['start']
         end = request.form['end']
+        url = request.form['url']
 
         if end == '':
             end = start
         events.append({
             'title': title,
             'start': start,
-            'end': end
+            'end': end,
+            'url': url
 
         },
         )
+
     return render_template("dodaj_wydarzenie.html")
 
     # return render_template('dodaj_wydarzenie.html', title='terminarz')

@@ -5,13 +5,13 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from addpost import FormularzDodawaniaPosta
 from flask_ckeditor import CKEditor
-from quiz import PopQuiz
 import os
 from werkzeug.utils import secure_filename, send_from_directory
-from quiz import CorrectAnswer
+from flask_wtf import FlaskForm as Form
+from wtforms import RadioField
 
 
-UPLOAD_FOLDER = '/static/uploads'
+UPLOAD_FOLDER = '/static/aa'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 app = Flask(__name__)
@@ -72,6 +72,46 @@ class Posts(db.Model):
 
 db.create_all(bind='db2')
 
+
+
+
+class CorrectAnswer(object):
+    def __init__(self, answer):
+        self.answer = answer
+
+    def __call__(self, form, field):
+        message = 'Incorrect answer.'
+
+        if field.data != self.answer:
+            uzytkownik = Uzytkownicy.query.filter_by(email=current_user.email).first()
+            uzytkownik.wynik = uzytkownik.wynik
+            db.session.commit()
+
+        else :
+            uzytkownik = Uzytkownicy.query.filter_by(email=current_user.email).first()
+            uzytkownik.wynik = uzytkownik.wynik + 1
+            db.session.commit()
+
+class PopQuiz(Form):
+    class Meta:
+        csrf = False
+    q1 = RadioField(
+        "Czy to jest szkolenie z BHP?",
+        choices=[('opcja1', 'Tak'), ('opcja2', 'Nie')],
+        validators=[CorrectAnswer('opcja1')]
+        )
+
+    q2 = RadioField(
+        "Czy to jest szkolenie z Onboardingu?",
+        choices=[('opcja1', 'Tak'), ('opcja2', 'Nie')],
+        validators=[CorrectAnswer('opcja1')]
+    )
+
+    q3 = RadioField(
+        "Czy zapoznałeś się ze wszystkimi materiałami dotyczącymi szkolenia?",
+        choices=[('opcja1', 'Tak'), ('opcja2', 'Nie')],
+        validators=[CorrectAnswer('opcja1')]
+    )
 
 
 @login_manager.user_loader
@@ -246,18 +286,19 @@ def materialy():
 def quiz():
   form = PopQuiz()
   if form.validate_on_submit():
-      if CorrectAnswer:
-          uzytkownik = Uzytkownicy.query.filter_by(email=current_user.email).first()
-          uzytkownik.wynik = uzytkownik.wynik + 1
-          db.session.commit()
-          return redirect(url_for('wyniki'))
-      else:
-          return redirect(url_for('wyniki'))
+    return redirect(url_for('wyniki'))
+
   return render_template('quiz.html', form=form)
+
+
 
 @app.route('/Wyniki')
 def wyniki():
  return render_template('wyniki.html')
+
+
+
+
 
 if __name__ == '__main__':
 

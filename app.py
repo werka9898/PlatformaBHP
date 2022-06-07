@@ -8,6 +8,8 @@ from flask_ckeditor import CKEditor
 from quiz import PopQuiz
 import os
 from werkzeug.utils import secure_filename, send_from_directory
+from quiz import CorrectAnswer
+
 
 UPLOAD_FOLDER = '/static/uploads'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -50,11 +52,6 @@ class Uzytkownicy(db.Model, UserMixin):
 
     def __repr__(self):
         return f"Uzytkownicy('{self.imie}', '{self.nazwisko}', '{self.email}', '{self.haslo}', '{self.powtorz_haslo}', '{self.wynik}')"
-
-
-
-
-
 
 db.create_all()
 
@@ -248,8 +245,14 @@ def materialy():
 @app.route("/Quiz", methods=['GET', 'POST'])
 def quiz():
   form = PopQuiz()
-  if form.on_submit():
-      return redirect(url_for('wyniki'))
+  if form.validate_on_submit():
+      if CorrectAnswer:
+          uzytkownik = Uzytkownicy.query.filter_by(email=current_user.email).first()
+          uzytkownik.wynik = uzytkownik.wynik + 1
+          db.session.commit()
+          return redirect(url_for('wyniki'))
+      else:
+          return redirect(url_for('wyniki'))
   return render_template('quiz.html', form=form)
 
 @app.route('/Wyniki')

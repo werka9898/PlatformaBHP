@@ -2,19 +2,23 @@
 {% block content %}
 
 
+
+
 <div class="container">
-    <form action='/Quiz' method="POST" role="form">
-        {% for question in form %}
-              <div class="question">
-                <h2>{{ question.label }}</h2>
-              </div><br>
-              <div class = "answer">
-                {{ question }}
-              </div>
-        {% endfor %}
-        <input type="submit" value = "Submit" />
-    </form>
+    <h1>Quiz - Podstawy BHP</h1><br>
+        <form action='/Quiz' method="POST" role="form">
+            {% for question in form %}
+                  <div class="question">
+                    <h4>{{ question.label }}</h4>
+                  </div><br>
+                  <div class = "answer">
+                    {{ question }}
+                  </div>
+            {% endfor %}
+            <input type="submit" value = "Submit" />
+        </form>
 </div>
+
 
 
 

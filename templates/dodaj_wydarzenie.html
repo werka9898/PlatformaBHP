@@ -5,20 +5,20 @@
         <form action="/dodaj_wydarzenie" method="POST">
 {#            {{ form.hidden_tag() }}#}
             <div class="mb-3">
-              <label for="title" class="form-label">Event title</label>
-              <input type="text" class="form-control" name="title" id="title" placeholder="Enter the event title">
+              <label for="title" class="form-label">Tytuł wydarzenia</label>
+              <input type="text" class="form-control" name="title" id="title" placeholder="Wprowadź tytuł wydarzenia">
             </div>
             <div class="mb-3">
-              <label for="Start" class="form-label">Start date</label>
-              <input type="text" class="form-control" name="start" id="start" placeholder="Format is yyyy-mm-ddThh:mm Ignore Thh:mm if you need it for all day">
+              <label for="Start" class="form-label">Data rozpoczęcia</label>
+              <input type="text" class="form-control" name="start" id="start" placeholder="Format: yyyy-mm-dd">
             </div>
             <div class="mb-3">
-              <label for="Koniec" class="form-label">End date</label>
-              <input type="text" class="form-control" name="end" id="end" placeholder="leave empty for event to be all day">
+              <label for="Koniec" class="form-label">Data zakończenia</label>
+              <input type="text" class="form-control" name="end" id="end" placeholder="Pozostaw puste, jeśli wydarzenie ma trwać cały dzień">
             </div>
             <div class="mb-3">
-              <label for="url" class="form-label">Event url</label>
-              <input type="url" class="form-control" name="url" id="url" placeholder="Leave empty for no url to be there">
+              <label for="url" class="form-label">Link do wydarzenia</label>
+              <input type="url" class="form-control" name="url" id="url" placeholder="Brak linku - pozostaw puste">
             </div>
 {#            <div class="form-group">#}
 {#                {{ form.submit(class="btn btn-outline-info") }}#}

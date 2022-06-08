@@ -96,22 +96,35 @@ class PopQuiz(Form):
     class Meta:
         csrf = False
     q1 = RadioField(
-        "Czy to jest szkolenie z BHP?",
-        choices=[('opcja1', 'Tak'), ('opcja2', 'Nie')],
+        "Natężenie oświetlenia na stanowisku pracy uzależnia się od:",
+        choices=[('opcja1', 'Charakteru, rodzaju i dokładności wykonywanej pracy'), ('opcja2', 'Sprawności wzroku pracownika'), ('opcja3', 'Czasu pracy')],
         validators=[CorrectAnswer('opcja1')]
         )
 
     q2 = RadioField(
-        "Czy to jest szkolenie z Onboardingu?",
-        choices=[('opcja1', 'Tak'), ('opcja2', 'Nie')],
+        "Kto ponosi koszty związane z badaniem okoliczności i przyczyn wypadku przy pracy?",
+        choices=[('opcja1', 'Pracodawca'), ('opcja2', 'Zakład  Ubezpieczeń Społecznych'), ('opcja3', 'Zakład  Ubezpieczeń Społecznych')],
         validators=[CorrectAnswer('opcja1')]
     )
 
     q3 = RadioField(
-        "Czy zapoznałeś się ze wszystkimi materiałami dotyczącymi szkolenia?",
-        choices=[('opcja1', 'Tak'), ('opcja2', 'Nie')],
+        "Badania lekarskie związane z przyjęciem do pracy przeprowadza:",
+        choices=[('opcja1', 'Lekarz medycyny pracy'), ('opcja2', 'Lekarz rodzinny'), ('opcja3', 'Jakikolwiek lekarz')],
         validators=[CorrectAnswer('opcja1')]
     )
+
+    q4 = RadioField(
+        "Stosunek pracy nawiązuje się w dniu:",
+        choices=[('opcja1', 'Załatwienia karty obiegowej'), ('opcja2', 'Podpisania przez pracodawcę podania o przyjęcie do pracy'), ('opcja3', 'Określonym w umowie o pracę')],
+        validators=[CorrectAnswer('opcja3')]
+    )
+
+    q5 = RadioField(
+        "Minimalna szerokość dostępu do sprzętu gaśniczego wynosi:",
+        choices=[('opcja1', '0,5 m'), ('opcja2', ' 0,75 m'), ('opcja3', '1m')],
+        validators=[CorrectAnswer('opcja3')]
+    )
+
 
 
 @login_manager.user_loader
